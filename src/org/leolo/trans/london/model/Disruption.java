@@ -29,17 +29,17 @@ public class Disruption extends BaseModel{
 	private String closureText;
 	
 	public static Disruption parse(JSONObject object) {
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
+		SimpleDateFormat sdf = getDateFormat();
 		Disruption disruption = new Disruption();
-		disruption.category = object.getString("category");
-		disruption.type = object.getString("type");
-		disruption.categoryDescription = object.getString("categoryDescription");
-		disruption.description = object.getString("description");
-		disruption.summary = object.getString("summary");
-		disruption.additionalInfo = object.getString("additionalInfo");
+		disruption.category = object.optString("category");
+		disruption.type = object.optString("type");
+		disruption.categoryDescription = object.optString("categoryDescription");
+		disruption.description = object.optString("description");
+		disruption.summary = object.optString("summary");
+		disruption.additionalInfo = object.optString("additionalInfo");
 		try {
-			disruption.created = sdf.parse(object.getString("created"));
-			disruption.updated = sdf.parse(object.getString("lastUpdate"));
+			disruption.created = sdf.parse(object.optString("created"));
+			disruption.updated = sdf.parse(object.optString("lastUpdate"));
 		} catch (ParseException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -51,7 +51,7 @@ public class Disruption extends BaseModel{
 		for(int i=0;i<affectedStops.length();i++) {
 			disruption.affectedStop.add(Stop.parse(affectedStops.getJSONObject(i)));
 		}
-		disruption.closureText = object.getString("closureText");
+		disruption.closureText = object.optString("closureText");
 		return disruption;
 	}
 

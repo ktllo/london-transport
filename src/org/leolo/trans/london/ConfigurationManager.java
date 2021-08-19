@@ -17,6 +17,7 @@ public final class ConfigurationManager {
 	
 	static {
 		instance = new ConfigurationManager();
+		System.setProperty("user.timezone", "GMT");
 	}
 	
 	public static ConfigurationManager getInstance() {

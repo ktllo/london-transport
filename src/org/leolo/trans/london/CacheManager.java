@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.leolo.trans.london.model.Line;
 import org.leolo.trans.london.requestor.LineAPI;
 import org.sqlite.SQLiteDataSource;
 
@@ -42,7 +44,7 @@ public final class CacheManager {
 	
 	public void updateLineInfo() {
 		log.info("Updating line info");
-		LineAPI.getLines(Constants.SERVICE_TYPE_ALL);
+		Collection<Line> lines= LineAPI.getLines(Constants.SERVICE_TYPE_ALL);
 		
 		db.setCacheTime(Constants.CACHE_KEY_LINE);
 	}
@@ -53,7 +55,11 @@ public final class CacheManager {
 			taskExecutor.submit(new Runnable() {
 				@Override
 				public void run() {
-					updateLineInfo();
+					try {
+						updateLineInfo();
+					}catch(Throwable t) {
+						log.error(t.getMessage(), t);
+					}
 				}
 			});
 		}

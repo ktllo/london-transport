@@ -11,6 +11,7 @@ public class Constants {
 	public static final String CACHE_KEY_LINE = "000-line";
 	
 	//API related
+	public static final String API_BASE_URL = "https://api.tfl.gov.uk/";
 	public static final String SERVICE_TYPE_REGULAR = "Regular";
 	public static final String SERVICE_TYPE_NIGHT = "Night";
 	public static final String SERVICE_TYPE_ALL = "Regular,Night";

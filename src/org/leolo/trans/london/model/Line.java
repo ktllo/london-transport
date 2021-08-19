@@ -18,24 +18,38 @@ public class Line extends BaseModel{
 	private String modeName;
 	private Date created;
 	private Date updated;
-	private Vector<Disruption> disruption = new Vector<>();
+	private Vector<Disruption> disruptions = new Vector<>();
+	private Vector<LineStatus> lineStatuses = new Vector<>();
 	private Vector<RouteSection> routeSections = new Vector<>();
 	private Vector<ServiceType> serviceTypes = new Vector<>();
 	private Crowding crowding;
 	
 	public static Line parse(JSONObject object) {
 		Line line = new Line();
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
-		line.id = object.getString("id");
-		line.name = object.getString("name");
-		line.modeName = object.getString("modeName");
+		SimpleDateFormat sdf = getDateFormat();
+		line.id = object.optString("id");
+		line.name = object.optString("name");
+		line.modeName = object.optString("modeName");
 		JSONArray disruptions = object.getJSONArray("disruptions");
 		for(int i=0;i<disruptions.length();i++) {
-			line.disruption.add(Disruption.parse(disruptions.getJSONObject(i)));
+			line.disruptions.add(Disruption.parse(disruptions.getJSONObject(i)));
 		}
+		JSONArray lineStatus = object.getJSONArray("lineStatuses");
+		for(int i=0;i<lineStatus.length();i++) {
+			line.lineStatuses.add(LineStatus.parse(lineStatus.getJSONObject(i)));
+		}
+		JSONArray routeSection = object.getJSONArray("routeSections");
+		for(int i=0;i<routeSection.length();i++) {
+			line.routeSections.add(RouteSection.parse(routeSection.getJSONObject(i)));
+		}
+		JSONArray serviceType = object.getJSONArray("serviceTypes");
+		for(int i=0;i<serviceType.length();i++) {
+			line.serviceTypes.add(ServiceType.parse(serviceType.getJSONObject(i)));
+		}
+		line.crowding = Crowding.parse(object.getJSONObject("crowding"));
 		try {
-			line.created=sdf.parse(object.getString("created"));
-			line.updated=sdf.parse(object.getString("modified"));
+			line.created=sdf.parse(object.optString("created"));
+			line.updated=sdf.parse(object.optString("modified"));
 		}catch(ParseException e) {
 			log.warn(e.getMessage(), e);
 		}
@@ -78,13 +92,16 @@ public class Line extends BaseModel{
 	public void setCrowding(Crowding crowding) {
 		this.crowding = crowding;
 	}
-	public Vector<Disruption> getDisruption() {
-		return disruption;
+	public Vector<Disruption> getDisruptions() {
+		return disruptions;
 	}
 	public Vector<RouteSection> getRouteSections() {
 		return routeSections;
 	}
 	public Vector<ServiceType> getServiceTypes() {
 		return serviceTypes;
+	}
+	public Vector<LineStatus> getLineStatuses() {
+		return lineStatuses;
 	}
 }
