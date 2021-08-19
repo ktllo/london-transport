@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.leolo.trans.london.Constants;
@@ -42,7 +43,14 @@ public class Disruption extends BaseModel{
 		} catch (ParseException e) {
 			log.error(e.getMessage(), e);
 		}
-		//TODO:Handle affected routes and affected stops
+		JSONArray affectedRoutes = object.getJSONArray("affectedRoutes");
+		for(int i=0;i<affectedRoutes.length();i++) {
+			disruption.affectedRoute.add(Route.parse(affectedRoutes.getJSONObject(i)));
+		}
+		JSONArray affectedStops = object.getJSONArray("affectedStops");
+		for(int i=0;i<affectedStops.length();i++) {
+			disruption.affectedStop.add(Stop.parse(affectedStops.getJSONObject(i)));
+		}
 		disruption.closureText = object.getString("closureText");
 		return disruption;
 	}
