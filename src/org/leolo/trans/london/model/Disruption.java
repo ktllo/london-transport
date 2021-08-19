@@ -1,13 +1,17 @@
 package org.leolo.trans.london.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.leolo.trans.london.Constants;
 
-public class Disruption {
+public class Disruption extends BaseModel{
 	
 	static Logger log = LogManager.getLogger(Disruption.class);
 	
@@ -24,8 +28,22 @@ public class Disruption {
 	private String closureText;
 	
 	public static Disruption parse(JSONObject object) {
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
 		Disruption disruption = new Disruption();
 		disruption.category = object.getString("category");
+		disruption.type = object.getString("type");
+		disruption.categoryDescription = object.getString("categoryDescription");
+		disruption.description = object.getString("description");
+		disruption.summary = object.getString("summary");
+		disruption.additionalInfo = object.getString("additionalInfo");
+		try {
+			disruption.created = sdf.parse(object.getString("created"));
+			disruption.updated = sdf.parse(object.getString("lastUpdate"));
+		} catch (ParseException e) {
+			log.error(e.getMessage(), e);
+		}
+		//TODO:Handle affected routes and affected stops
+		disruption.closureText = object.getString("closureText");
 		return disruption;
 	}
 

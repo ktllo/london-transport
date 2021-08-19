@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.leolo.trans.london.Constants;
 
-public class Line {
+public class Line extends BaseModel{
 	static Logger log = LogManager.getLogger(Line.class);
 	private String id;
 	private String name;

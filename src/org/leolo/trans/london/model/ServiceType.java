@@ -1,5 +1,9 @@
 package org.leolo.trans.london.model;
 
-public class ServiceType {
+import org.json.JSONObject;
 
+public class ServiceType extends BaseModel{
+	public static ServiceType parse(JSONObject object) {
+		return new ServiceType();
+	}
 }
