@@ -18,6 +18,6 @@ public class Constants {
 	public static final String DATE_FORMAT_STR = "yyyy-MM-dd'T'HH:mm:ss.SS";
 	
 	//API connection related
-	public static final int REQUEST_TIMEOUT = 5000;
+	public static final int REQUEST_TIMEOUT = 30000;
 	public static final int MAX_THREAD_POOL_SIZE = 10;
 }

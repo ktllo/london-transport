@@ -65,6 +65,9 @@ public abstract class DatabaseManager {
 			try(Statement stmt = conn.createStatement()){
 				stmt.executeUpdate("CREATE TABLE metadata(key TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL)");
 				stmt.executeUpdate("CREATE TABLE cache_age(key TEXT NOT NULL PRIMARY KEY, value DATE NOT NULL)");
+				stmt.executeUpdate("CREATE TABLE \"line\" ( \"uid\" TEXT NOT NULL, \"id\" TEXT NOT NULL, \"name\" TEXT, \"mode\" TEXT, PRIMARY KEY(\"uid\") )");
+				stmt.executeUpdate("CREATE TABLE \"line_section\" ( \"uid\" TEXT NOT NULL, \"route\" TEXT NOT NULL, \"direction\" TEXT, \"origin\" TEXT, \"destination\" TEXT, \"validFrom\" date, \"validTo\" date, PRIMARY KEY(\"uid\") )");
+				stmt.executeUpdate("CREATE TABLE \"line_section_point\" ( \"uid\" TEXT NOT NULL, \"name\" TEXT, \"NaPTAN\" TEXT, PRIMARY KEY(\"uid\") )");
 			} catch (SQLException e) {
 				log.error(e.getMessage(), e);
 			}

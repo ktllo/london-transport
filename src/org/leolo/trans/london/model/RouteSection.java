@@ -26,7 +26,7 @@ public class RouteSection extends BaseModel{
 	
 	public static RouteSection parse(JSONObject object) {
 		RouteSection rs =  new RouteSection();
-		SimpleDateFormat sdf= getDateFormat();
+		SimpleDateFormat sdf= getDateFormat(DateFormatType.SECOND);
 		rs.routeCode = object.optString("routeCode");
 		rs.name = object.optString("name");
 		rs.direction = object.optString("direction");
